@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join | Super Cars World</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#080d18;color:white}
+header{padding:25px 8%;background:#050914;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #00bfff}
+.logo{font-size:28px;font-weight:bold;color:#00bfff}
+nav{display:flex;gap:22px}
+nav a{color:white;text-decoration:none}
+nav a:hover{color:#00bfff}
+main{padding:50px 15px}
+.form-card{max-width:600px;margin:auto;background:#172235;border:1px solid #2b405c;border-radius:12px;padding:30px}
+h1{text-align:center;color:#00bfff;margin-bottom:15px}
+.description{text-align:center;color:#c5cede;margin-bottom:25px;line-height:1.7}
+label{display:block;margin:16px 0 8px}
+input,select,textarea{width:100%;padding:13px;background:#080d18;color:white;border:1px solid #38516d;border-radius:6px;font:inherit}
+button{width:100%;margin-top:22px;padding:14px;background:#009fe3;color:white;border:0;border-radius:6px;font-size:16px;cursor:pointer}
+button:disabled{opacity:.6}
+#formMessage{text-align:center;margin-top:15px;line-height:1.6}
+footer{text-align:center;padding:25px;background:#050914;border-top:2px solid #00bfff;color:#ccc}
+@media(max-width:650px){header{flex-direction:column;gap:20px}.logo{font-size:23px}.form-card{padding:22px}}
+</style>
+</head>
+
+<body>
+<header>
+<div class="logo">SUPER CARS</div>
+<nav>
+<a href="index.html">Home</a>
+<a href="cars.html">Collection</a>
+<a href="about.html">About</a>
+<a href="join.html">Join</a>
+</nav>
+</header>
+
+<main>
+<div class="form-card">
+<h1>Join Super Cars World</h1>
+<p class="description">Tell us about yourself and your favourite supercar.</p>
+
+<form id="carForm">
+<label for="name">Name</label>
+<input type="text" id="name" name="name" required>
+
+<label for="email">Email</label>
+<input type="email" id="email" name="email" required>
+
+<label for="car">Favourite Car Brand</label>
+<select id="car" name="car" required>
+<option value="">Select a brand</option>
+<option value="Lamborghini">Lamborghini</option>
+<option value="Ferrari">Ferrari</option>
+<option value="Bugatti">Bugatti</option>
+<option value="Porsche">Porsche</option>
+<option value="McLaren">McLaren</option>
+<option value="Ford Mustang">Ford Mustang</option>
+</select>
+
+<label for="message">Why do you like this car?</label>
+<textarea id="message" name="message" rows="4" required></textarea>
+
+<button type="submit" id="submitButton">Submit</button>
+<p id="formMessage" aria-live="polite"></p>
+</form>
+</div>
+</main>
+
+<footer>© 2026 Super Cars World</footer>
+
+<script>
+const SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+document.getElementById("carForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const form = this;
+    const button = document.getElementById("submitButton");
+    const status = document.getElementById("formMessage");
+
+    if (SCRIPT_URL.includes("PASTE_YOUR")) {
+        status.textContent = "Please add your Google Apps Script URL first.";
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Submitting...";
+    status.textContent = "";
+
+    const data = new URLSearchParams(new FormData(form));
+
+    try {
+        await fetch(SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            body: data
+        });
+
+        status.textContent = "Request sent. Check Google Sheets to confirm the entry.";
+        status.style.color = "#4ade80";
+        form.reset();
+    } catch (error) {
+        status.textContent = "Unable to send the form. Please try again.";
+        status.style.color = "#ff7373";
+    } finally {
+        button.disabled = false;
+        button.textContent = "Submit";
+    }
+});
+</script>
+
+</body>
+</html>
